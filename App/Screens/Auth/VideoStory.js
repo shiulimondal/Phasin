@@ -1,6 +1,6 @@
 //import liraries
-import React, { Component } from 'react';
-import { View, StyleSheet, Image } from 'react-native';
+import React, { Component, useState } from 'react';
+import { View, StyleSheet, Image, Dimensions } from 'react-native';
 import { AppButton, AppTextInput, Container, Icon, Text, useTheme } from 'react-native-basic-elements';
 import BackHeader from '../../Components/Header/BackHeader';
 import LinearGradient from 'react-native-linear-gradient';
@@ -8,10 +8,17 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { moderateScale } from '../../Constants/PixelRatio';
 import { FONTS } from '../../Constants/Fonts';
 import NavigationService from '../../Services/Navigation';
+import Modal from "react-native-modal";
 
+const { height, width } = Dimensions.get('window')
 // create a component
 const VideoStory = () => {
     const colors = useTheme()
+    const [isModalVisible, setModalVisible] = useState(false);
+
+    const toggleModal = () => {
+        setModalVisible(!isModalVisible);
+    };
     return (
         <Container>
             <BackHeader title='Your Video Story' />
@@ -99,11 +106,47 @@ const VideoStory = () => {
                         style={styles.button_sty}
                         onPress={() => NavigationService.navigate('VideoStory')}
                     />
-                    <Text style={{
-                        ...styles.skip_txt,
-                        color:colors.textColor
-                    }}>Skip</Text>
+                    <Text
+                        onPress={toggleModal}
+                        style={{
+                            ...styles.skip_txt,
+                            color: colors.textColor
+                        }}>Skip</Text>
                 </KeyboardAwareScrollView>
+                <Modal
+                    isVisible={isModalVisible}
+                    style={{
+                        justifyContent: 'center',
+                        marginHorizontal: moderateScale(15),
+
+                    }}
+                    onBackButtonPress={() => setModalVisible(false)}
+                    onBackdropPress={() => setModalVisible(false)}
+                >
+                    <View style={{
+                        ...styles.modal_view,
+                        backgroundColor: colors.secondaryThemeColor
+                    }}>
+                        <Image
+                            source={require('../../Assets/images/FaceID.png')}
+                            style={{
+                                height: moderateScale(90),
+                                width: moderateScale(90)
+                            }}
+                        />
+                        <Text style={{
+                            ...styles.create_profile,
+                            color: colors.textColor
+                        }}>Successfully Created Your Profile</Text>
+                        <Text style={{
+                            ...styles.complete_profile_txt,
+                            color:colors.secondaryFontColor
+                        }}>You have been successfully completed your profile</Text>
+                    </View>
+
+
+
+                </Modal>
             </LinearGradient>
         </Container>
     );
@@ -177,11 +220,30 @@ const styles = StyleSheet.create({
         borderRadius: moderateScale(25),
         marginBottom: moderateScale(20)
     },
-    skip_txt:{
-        fontFamily:FONTS.solway.regular,
-        fontSize:moderateScale(17),
-        textAlign:'center',
-        marginBottom:moderateScale(20)
+    skip_txt: {
+        fontFamily: FONTS.solway.regular,
+        fontSize: moderateScale(17),
+        textAlign: 'center',
+        marginBottom: moderateScale(20)
+    },
+    modal_view: {
+        padding: moderateScale(20),
+        borderRadius: moderateScale(8),
+        alignItems: 'center'
+    },
+    create_profile: {
+        fontFamily: FONTS.solway.medium,
+        fontSize: moderateScale(14),
+        maxWidth: '60%',
+        textAlign: 'center',
+        marginTop: moderateScale(10)
+    },
+    complete_profile_txt: {
+        fontFamily: FONTS.solway.regular,
+        fontSize: moderateScale(10),
+        maxWidth: '80%',
+        textAlign: 'center',
+        marginTop: moderateScale(10)
     }
 });
 
