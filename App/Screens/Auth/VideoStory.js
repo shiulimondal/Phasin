@@ -144,8 +144,6 @@ const VideoStory = () => {
                         }}>You have been successfully completed your profile</Text>
                     </View>
 
-
-
                 </Modal>
             </LinearGradient>
         </Container>
