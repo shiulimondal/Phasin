@@ -185,8 +185,9 @@ const Register = () => {
                             checked={check}
                             onChange={(val) => setCheck(val)}
                             size={23}
-                            activeColor={'#000'}
+                            activeColor={'#fff'}
                             inactiveColor={'#51535D'}
+                            tintColor={'#89CCD5'}
                             inactiveBackgroundColor={'#89CCD5'}
                             containerStyle={{
                                 borderRadius: moderateScale(4)

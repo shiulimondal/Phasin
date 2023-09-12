@@ -26,11 +26,17 @@ const Profile = () => {
                 <KeyboardAwareScrollView
                     showsVerticalScrollIndicator={false}
                 >
-                    <View style={{ marginTop: moderateScale(25) }}>
-                        <Image
-                            source={require('../../Assets/images/profile.png')}
-                            style={styles.profile_img}
-                        />
+                    <View style={{
+                        marginTop: moderateScale(25),
+                        alignItems: 'center'
+                    }}>
+                        <View>
+                            <Image
+                                source={require('../../Assets/images/profile.png')}
+                                style={styles.profile_img}
+                            />
+                        </View>
+
                         <View style={styles.verify_view}>
                             <Image
                                 source={require('../../Assets/images/verify.png')}
@@ -86,7 +92,7 @@ const Profile = () => {
                     />
                     <Text style={{
                         ...styles.password_txt,
-                         color: colors.primaryFontColor
+                        color: colors.primaryFontColor
                     }}>Your Gender</Text>
                     <Picker
                         options={[
@@ -95,20 +101,24 @@ const Profile = () => {
                                 value: 'Male'
                             },
                             {
-                                label: 'Male',
-                                value: 'Male'
+                                label: 'Female',
+                                value: 'Female'
                             },
                             {
-                                label: 'Male',
-                                value: 'Male'
+                                label: 'Transgender',
+                                value: 'Transgender'
                             },
                             {
-                                label: 'Male',
-                                value: 'Male'
+                                label: 'Non Binary',
+                                value: 'Non Binary'
                             },
                             {
-                                label: 'Male',
-                                value: 'Male'
+                                label: 'Transgender Male',
+                                value: 'Transgender Male'
+                            },
+                            {
+                                label: 'Transgender Female',
+                                value: 'Transgender Female'
                             },
                         ]}
                         placeholder="Choose Your Gender"
@@ -190,8 +200,8 @@ const styles = StyleSheet.create({
     verify_view: {
         flexDirection: 'row',
         alignItems: 'center',
-        bottom: -50,
-        right: -222
+        bottom: moderateScale(-50),
+        right: moderateScale(-82)
     },
     veryfi_img: {
         height: moderateScale(14),
@@ -205,8 +215,7 @@ const styles = StyleSheet.create({
     edit_img: {
         height: moderateScale(16),
         width: moderateScale(16),
-        bottom: -75,
-        right: -175
+        bottom: moderateScale(-72)
     },
     user_name_txt: {
         fontFamily: FONTS.solway.regular,

@@ -131,20 +131,16 @@ const Preference = () => {
                                 value: 'Male'
                             },
                             {
-                                label: 'Male',
-                                value: 'Male'
+                                label: 'Women',
+                                value: 'Women'
                             },
                             {
-                                label: 'Male',
-                                value: 'Male'
+                                label: 'Gey',
+                                value: 'Gey'
                             },
                             {
-                                label: 'Male',
-                                value: 'Male'
-                            },
-                            {
-                                label: 'Male',
-                                value: 'Male'
+                                label: 'Lesbian',
+                                value: 'Lesbian'
                             },
                         ]}
                         placeholder="Select"
@@ -166,24 +162,20 @@ const Preference = () => {
                     <Picker
                         options={[
                             {
-                                label: 'Male',
-                                value: 'Male'
+                                label: 'Hookups',
+                                value: 'Hookups'
                             },
                             {
-                                label: 'Male',
-                                value: 'Male'
+                                label: 'Sea where it goes',
+                                value: 'Sea where it goes'
                             },
                             {
-                                label: 'Male',
-                                value: 'Male'
+                                label: 'Friends',
+                                value: 'Friends'
                             },
                             {
-                                label: 'Male',
-                                value: 'Male'
-                            },
-                            {
-                                label: 'Male',
-                                value: 'Male'
+                                label: 'Serious types',
+                                value: 'Serious types'
                             },
                         ]}
                         placeholder="Select"

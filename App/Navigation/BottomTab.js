@@ -1,16 +1,15 @@
 //import liraries
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, PixelRatio, SafeAreaView } from 'react-native';
+import { View, Text, StyleSheet, PixelRatio, SafeAreaView, Image } from 'react-native';
 import { useSelector } from 'react-redux';
-import Icon, { IconType } from '../Components/Icon';
 import { COLORS } from '../Constants/Colors';
 import { FONTS } from '../Constants/Fonts';
 import { moderateScale } from '../Constants/PixelRatio';
-import Login from '../Screens/Auth/login';
-import Ecommerce from '../Screens/Ecommerce';
-import Home from '../Screens/Home';
-import OTT from '../Screens/OTT';
+import Home from '../Screens/Home/Home';
+import Messages from '../Screens/Messages/Messages';
+import Account from '../Screens/Account/Account';
+
 
 const Tab = createBottomTabNavigator();
 // create a component
@@ -20,39 +19,87 @@ const BottomTab = () => {
         <Tab.Navigator
             screenOptions={{
                 headerShown: false,
-                tabBarActiveTintColor: COLORS.primaryThemeColor,
-                tabBarInactiveTintColor: '#777',
+                tabBarActiveTintColor: '#89CCD5',
+                tabBarInactiveTintColor: '#BDBDBD',
                 tabBarLabelStyle: {
-                    fontSize: 10,
-                    fontFamily: FONTS.bold,
-                    marginBottom: moderateScale(10),
+                    fontSize: 8,
+                    fontFamily: FONTS.solway.medium,
+                    marginBottom: moderateScale(15),
                 },
                 tabBarStyle: {
                     backgroundColor: COLORS.secondaryThemeColor,
-                    height: moderateScale(55),
-                    paddingBottom: 0
+                    height: moderateScale(70),
+                    paddingBottom: 0,
+                    borderRadius: moderateScale(35),
+                    marginBottom: moderateScale(20),
+                    position:'absolute',
+                    marginHorizontal:moderateScale(10)
                 },
-            
+
             }}
         >
             <Tab.Screen
-                name="EVENTS"
+                name="Home"
                 component={Home}
                 options={{
                     unmountOnBlur: true,
-                    tabBarLabel: 'EVENTS',
+                    tabBarLabel: 'Home',
                     tabBarIcon: ({ focused, color, size }) => (
-                        <Icon
-                            type={IconType.MaterialIcon}
-                            name="emoji-events"
-                            size={28}
-                            color={color}
+
+                        <Image
+                            source={require('../Assets/images/home.png')}
+                            style={{
+                                height: moderateScale(24),
+                                width: moderateScale(24),
+                                tintColor: focused ? "#89CCD5" : '#BDBDBD'
+                            }}
                         />
                     )
                 }}
             />
 
             <Tab.Screen
+                name="Messages"
+                component={Messages}
+                options={{
+                    unmountOnBlur: true,
+                    tabBarLabel: 'Messages',
+                    tabBarIcon: ({ focused, color, size }) => (
+
+                        <Image
+                            source={require('../Assets/images/message.png')}
+                            style={{
+                                height: moderateScale(24),
+                                width: moderateScale(24),
+                                tintColor: focused ? "#89CCD5" : '#BDBDBD'
+                            }}
+                        />
+                    )
+                }}
+            />
+
+
+            <Tab.Screen
+                name="Account"
+                component={Account}
+                options={{
+                    unmountOnBlur: true,
+                    tabBarLabel: 'Account',
+                    tabBarIcon: ({ focused, color, size }) => (
+
+                        <Image
+                            source={require('../Assets/images/account.png')}
+                            style={{
+                                height: moderateScale(24),
+                                width: moderateScale(24),
+                                tintColor: focused ? "#89CCD5" : '#BDBDBD'
+                            }}
+                        />
+                    )
+                }}
+            />
+
+            {/* <Tab.Screen
                 name="OTT"
                 component={OTT}
                 options={{
@@ -84,9 +131,9 @@ const BottomTab = () => {
                         />
                     )
                 }}
-            />
+            /> */}
 
-            {
+            {/* {
                 login_status ?
                     <Tab.Screen
                         name="NEWS"
@@ -144,7 +191,7 @@ const BottomTab = () => {
                             )
                         }}
                     />
-            }
+            } */}
         </Tab.Navigator>
     );
 };

@@ -1,6 +1,6 @@
 //import liraries
 import React, { Component, useState } from 'react';
-import { View, StyleSheet, Image, Dimensions } from 'react-native';
+import { View, StyleSheet, Image, Dimensions, TouchableOpacity } from 'react-native';
 import { AppButton, AppTextInput, Container, Icon, Text, useTheme } from 'react-native-basic-elements';
 import BackHeader from '../../Components/Header/BackHeader';
 import LinearGradient from 'react-native-linear-gradient';
@@ -64,7 +64,8 @@ const VideoStory = () => {
                             ...styles.upload_only_txt
                         }}>Upload only 30sec video for better experience</Text>
                     </View>
-                    {/* successfully uploaded your story */}
+
+                    {/* successfully uploaded your story ========================================*/}
 
 
                     {/* <View style={styles.Text_View}>
@@ -106,6 +107,9 @@ const VideoStory = () => {
                         style={styles.button_sty}
                         onPress={() => NavigationService.navigate('VideoStory')}
                     />
+
+                    {/* open modal */}
+
                     <Text
                         onPress={toggleModal}
                         style={{
@@ -117,7 +121,7 @@ const VideoStory = () => {
                     isVisible={isModalVisible}
                     style={{
                         justifyContent: 'center',
-                        marginHorizontal: moderateScale(15),
+                        marginHorizontal: moderateScale(20),
 
                     }}
                     onBackButtonPress={() => setModalVisible(false)}
@@ -140,8 +144,17 @@ const VideoStory = () => {
                         }}>Successfully Created Your Profile</Text>
                         <Text style={{
                             ...styles.complete_profile_txt,
-                            color:colors.secondaryFontColor
+                            color: colors.secondaryFontColor
                         }}>You have been successfully completed your profile</Text>
+                        <View style={{ ...styles.line_view, borderColor: colors.borderColor }} />
+                        <TouchableOpacity
+                            onPress={() => NavigationService.navigate('AppStack')}
+                        >
+                            <Image
+                                source={require('../../Assets/images/Explore.png')}
+                                style={styles.explore_img}
+                            />
+                        </TouchableOpacity>
                     </View>
 
                 </Modal>
@@ -177,8 +190,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         position: 'absolute',
-        bottom: 10,
-        right: 115
+        bottom: moderateScale(20),
+        alignSelf: 'center',
+        right:moderateScale(100)
     },
     upload_only_txt: {
         fontFamily: FONTS.solway.regular,
@@ -225,7 +239,7 @@ const styles = StyleSheet.create({
         marginBottom: moderateScale(20)
     },
     modal_view: {
-        padding: moderateScale(20),
+        padding: moderateScale(25),
         borderRadius: moderateScale(8),
         alignItems: 'center'
     },
@@ -242,6 +256,18 @@ const styles = StyleSheet.create({
         maxWidth: '80%',
         textAlign: 'center',
         marginTop: moderateScale(10)
+    },
+    line_view: {
+        borderWidth: moderateScale(0.5),
+        alignSelf: 'center',
+        marginTop: moderateScale(15),
+        borderColor: 'red',
+        width: '80%'
+    },
+    explore_img: {
+        height: moderateScale(18),
+        width: moderateScale(71),
+        marginTop: moderateScale(15)
     }
 });
 

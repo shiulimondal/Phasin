@@ -112,7 +112,7 @@ const Login = () => {
                         title="Log in"
                         textStyle={styles.button_txt}
                         style={styles.button_sty}
-                    // onPress={() => { }}
+                    onPress={() =>NavigationService.navigate('AppStack')}
                     />
                     <Text style={{
                         ...styles.dont_have_account,
@@ -219,7 +219,8 @@ const styles = StyleSheet.create({
     register_txt: {
         fontFamily: FONTS.solway.semibold,
         fontSize: moderateScale(14),
-        color: '#000'
+        color: '#000',
+        textDecorationLine:'underline'
     }
 });
 
