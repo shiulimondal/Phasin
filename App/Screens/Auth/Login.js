@@ -38,8 +38,8 @@ const Login = () => {
         }
 
         let data = {
-            "userName": userData,
-            "password": userData
+            "userName": email,
+            "password": password
         };
         // setBtnLoader(true)
         console.log('logindata====', data);
@@ -49,7 +49,7 @@ const Login = () => {
                 //     Toast.show('Register successful', Toast.SHORT, Toast.BOTTOM);
                 // } 
                 // setBtnLoader(false)
-                AuthService.getAccount(res.data)
+                AuthService.setAccount(res.data);
             })
             .catch(err => {
                 console.log('err', err);
