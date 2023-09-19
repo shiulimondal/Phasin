@@ -13,6 +13,7 @@
     "prebuild": "npx react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res"
   },
   "dependencies": {
+    "@react-native-async-storage/async-storage": "^1.19.3",
     "@react-native-community/clipboard": "^1.5.1",
     "@react-native-masked-view/masked-view": "^0.2.9",
     "@react-native-picker/picker": "^2.5.0",
@@ -31,6 +32,7 @@
     "react-native-pager-view": "^6.2.1",
     "react-native-safe-area-context": "^4.7.2",
     "react-native-screens": "^3.25.0",
+    "react-native-simple-toast": "^3.0.1",
     "react-native-vector-icons": "^10.0.0",
     "react-redux": "^8.1.2",
     "redux": "^4.2.1",

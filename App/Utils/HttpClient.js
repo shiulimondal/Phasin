@@ -1,7 +1,7 @@
 import Storage from '@Utils/Storage'
 import { MAIN_BASE_URL } from './EnvVariables';
 
-const BASE_URL = `${MAIN_BASE_URL}/api/v1/`;
+const BASE_URL = `http://13.127.222.180:3033/api/user/`;
 
 async function getToken() {
     return await Storage.get('token');

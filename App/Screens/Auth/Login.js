@@ -9,12 +9,53 @@ import { Image } from 'react-native';
 import { TouchableOpacity } from 'react-native';
 import NavigationService from '../../Services/Navigation';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { useDispatch, useSelector } from 'react-redux';
+import Toast from 'react-native-simple-toast';
+import AuthService from '../../Services/Auth';
 
 const { height, width } = Dimensions.get('window')
 // create a component
 const Login = () => {
+    const dispatch = useDispatch();
+    const { userData } = useSelector(state => state.User);
     const colors = useTheme()
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
     const [passwordShow, setPasswordShow] = useState(false)
+    const [btnLoader, setBtnLoader] = useState(false);
+
+    const getLogin = () => {
+        const pattern =
+            /[a-zA-Z0-9]+[\.]?([a-zA-Z0-9]+)?[\@][a-z]{3,20}[\.][a-z]{2,5}/g;
+        const emailresult = pattern.test(email);
+        if (emailresult === false) {
+            Toast.show('Enter valid email', Toast.SHORT);
+            return false;
+        }
+        if (password == "") {
+            Toast.show('Enter valid Password');
+            return false;
+        }
+
+        let data = {
+            "userName": userData,
+            "password": userData
+        };
+        // setBtnLoader(true)
+        console.log('logindata====', data);
+        AuthService.login(data)
+            .then(res => {
+                // if (res.status == true) {
+                //     Toast.show('Register successful', Toast.SHORT, Toast.BOTTOM);
+                // } 
+                // setBtnLoader(false)
+                AuthService.getAccount(res.data)
+            })
+            .catch(err => {
+                console.log('err', err);
+                // setBtnLoader(false)
+            });
+    };
     return (
         <Container>
             <StatusBar
@@ -41,7 +82,9 @@ const Login = () => {
                         style={styles.logo_img}
                     />
                     <AppTextInput
-                        title='User Name/Mobile Number'
+                        title='User Email/Mobile Number'
+                        value={email}
+                        onChangeText={value => setEmail(value)}
                         titleStyle={{
                             ...styles.user_name_txt,
                             color: colors.primaryFontColor
@@ -50,7 +93,6 @@ const Login = () => {
                             ...styles.input_Container_sty,
                             borderColor: colors.primaryFontColor
                         }}
-                        placeholder="abc@gmail.com"
                         placeholderTextColor={colors.primaryFontColor}
                         inputStyle={{
                             ...styles.input_txt_sty,
@@ -69,12 +111,13 @@ const Login = () => {
                         <View
                             style={styles.text_input_view}>
 
-                            <TextInput
-                                secureTextEntry={passwordShow}
-                                style={{
+                            <AppTextInput
+                                value={password}
+                                onChangeText={value => setPassword(value)}
+                                secureTextEntry={!passwordShow}
+                                inputContainerStyle={{
                                     ...styles.password_placeholder_txt,
                                 }}
-                                keyboardType='email-address'
                             />
                         </View>
                         <TouchableOpacity
@@ -112,14 +155,21 @@ const Login = () => {
                         title="Log in"
                         textStyle={styles.button_txt}
                         style={styles.button_sty}
-                    onPress={() =>NavigationService.navigate('AppStack')}
+                        // onPress={() => NavigationService.navigate('AppStack')}
+                        // loader={btnLoader ? {
+                        //     position: 'right',
+                        //     color: '#fff',
+                        //     size: 'small'
+                        // } : null}
+                        // disabled={btnLoader}
+                        onPress={() => getLogin()}
                     />
                     <Text style={{
                         ...styles.dont_have_account,
                         color: colors.primaryFontColor
-                    }}>Don’t have an account? <Text 
-                    onPress={()=> NavigationService.navigate('Register')}
-                    style={styles.register_txt}>Register</Text></Text>
+                    }}>Don’t have an account? <Text
+                        onPress={() => NavigationService.navigate('Register')}
+                        style={styles.register_txt}>Register</Text></Text>
                 </KeyboardAwareScrollView>
             </LinearGradient>
         </Container>
@@ -190,7 +240,10 @@ const styles = StyleSheet.create({
     },
     password_placeholder_txt: {
         fontFamily: FONTS.solway.medium,
-        fontSize: moderateScale(12)
+        fontSize: moderateScale(12),
+        height: moderateScale(40),
+        width: moderateScale(260),
+        borderWidth: 0,
     },
     Forget_password_txt: {
         fontFamily: FONTS.solway.regular,
@@ -214,13 +267,13 @@ const styles = StyleSheet.create({
         fontSize: moderateScale(14),
         textAlign: 'center',
         marginTop: moderateScale(30),
-        marginBottom:moderateScale(20)
+        marginBottom: moderateScale(20)
     },
     register_txt: {
         fontFamily: FONTS.solway.semibold,
         fontSize: moderateScale(14),
         color: '#000',
-        textDecorationLine:'underline'
+        textDecorationLine: 'underline'
     }
 });
 

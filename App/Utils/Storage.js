@@ -8,7 +8,7 @@ async function get(key, defaultValue = null) {
                     if (value !== null) {
                         resolve(JSON.parse(value));
                     }else{
-                        reject('No value exists!');
+                        resolve(null);
                     }
                 } catch (error) {
                     reject(error);

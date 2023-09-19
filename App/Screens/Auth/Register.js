@@ -9,13 +9,73 @@ import { FONTS } from '../../Constants/Fonts';
 import { moderateScale } from '../../Constants/PixelRatio';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import NavigationService from '../../Services/Navigation';
+import AuthService from '../../Services/Auth';
+import Toast from 'react-native-simple-toast';
+import { setuser } from '../../Redux/reducer/User';
+import { useDispatch } from 'react-redux';
 
 const { height, width } = Dimensions.get('window')
 // create a component
 const Register = () => {
+    const dispatch = useDispatch();
     const colors = useTheme()
-    const [passwordShow, setPasswordShow] = useState(false)
     const [check, setCheck] = useState(false);
+    const [fullName, setFullname] = useState('')
+    const [email, setEmail] = useState('')
+    const [phoneNo, setPhoneNo] = useState('')
+    const [password, setPassword] = useState('')
+    const [passwordShow, setPasswordShow] = useState(false)
+    const [cnfPassword, setCnfPassword] = useState('')
+    const [cnfPasswordShow, setcnfPasswordShow] = useState(false)
+    const [btnLoader, setBtnLoader] = useState(false);
+
+    const getRegister = () => {
+        const pattern =
+            /[a-zA-Z0-9]+[\.]?([a-zA-Z0-9]+)?[\@][a-z]{3,20}[\.][a-z]{2,5}/g;
+        const emailresult = pattern.test(email);
+        if (fullName == "") {
+            Toast.show('Enter your Name', Toast.SHORT);
+            return false;
+        }
+        if (emailresult === false) {
+            Toast.show('Enter valid email', Toast.SHORT);
+            return false;
+        }
+        if (phoneNo == "") {
+            Toast.show('Enter your Mobile Number', Toast.SHORT);
+            return false;
+        }
+        if (password != cnfPassword) {
+            Toast.show('Password not Match');
+            return false;
+        }
+        if (!check) {
+            Toast.show('Please select this checkbox', Toast.SHORT, Toast.BOTTOM);
+            return;
+        }
+        console.log('regdatadata ======', data);
+        let data = {
+            "fullName": fullName,
+            "email": email,
+            "mobile": phoneNo,
+            "password": password
+        };
+        // setBtnLoader(true)
+        console.log('data====', data);
+        AuthService.Register(data)
+            .then(res => {
+                console.log('resdata', res);
+                if (res.status == true) {
+                    Toast.show('Register successful', Toast.SHORT, Toast.BOTTOM);
+                } 
+                setBtnLoader(false)
+                AuthService.setAccount(res.data);
+                dispatch(setuser(res.data));
+            })
+            .catch(err => {
+                // setBtnLoader(false)
+            });
+    };
     return (
         <Container>
             <BackHeader title='Register' />
@@ -30,6 +90,8 @@ const Register = () => {
                 >
                     <AppTextInput
                         title='Full Name'
+                        value={fullName}
+                        onChangeText={value => setFullname(value)}
                         titleStyle={{
                             ...styles.user_name_txt,
                             color: colors.primaryFontColor
@@ -38,7 +100,7 @@ const Register = () => {
                             ...styles.input_Container_sty,
                             borderColor: colors.primaryFontColor
                         }}
-                        placeholder="John Doe"
+                        // placeholder="John Doe"
                         placeholderTextColor={colors.primaryFontColor}
                         inputStyle={{
                             ...styles.input_txt_sty,
@@ -48,6 +110,8 @@ const Register = () => {
                     />
                     <AppTextInput
                         title='Your Email'
+                        value={email}
+                        onChangeText={value => setEmail(value)}
                         titleStyle={{
                             ...styles.user_name_txt,
                             marginTop: moderateScale(20),
@@ -57,7 +121,7 @@ const Register = () => {
                             ...styles.input_Container_sty,
                             borderColor: colors.primaryFontColor
                         }}
-                        placeholder="abc@gmail.com"
+                        // placeholder="abc@gmail.com"
                         placeholderTextColor={colors.primaryFontColor}
                         inputStyle={{
                             ...styles.input_txt_sty,
@@ -67,6 +131,9 @@ const Register = () => {
                     />
                     <AppTextInput
                         title='Your Mobile Number'
+                        maxLength={10}
+                        value={phoneNo}
+                        onChangeText={value => setPhoneNo(value)}
                         titleStyle={{
                             ...styles.user_name_txt,
                             marginTop: moderateScale(20),
@@ -94,14 +161,15 @@ const Register = () => {
                         }}>
                         <View
                             style={styles.text_input_view}>
-
-                            <TextInput
-                                secureTextEntry={passwordShow}
-                                style={{
+                            <AppTextInput
+                                value={password}
+                                onChangeText={value => setPassword(value)}
+                                secureTextEntry={!passwordShow}
+                                inputContainerStyle={{
                                     ...styles.password_placeholder_txt,
                                 }}
-                                keyboardType='email-address'
                             />
+
                         </View>
                         <TouchableOpacity
                             onPress={() => setPasswordShow(!passwordShow)}
@@ -139,19 +207,20 @@ const Register = () => {
                         }}>
                         <View
                             style={styles.text_input_view}>
-
-                            <TextInput
-                                secureTextEntry={passwordShow}
-                                style={{
+                            <AppTextInput
+                                value={cnfPassword}
+                                onChangeText={value => setCnfPassword(value)}
+                                secureTextEntry={!cnfPasswordShow}
+                                inputContainerStyle={{
                                     ...styles.password_placeholder_txt,
                                 }}
-                                keyboardType='email-address'
                             />
+
                         </View>
                         <TouchableOpacity
-                            onPress={() => setPasswordShow(!passwordShow)}
+                            onPress={() => setcnfPasswordShow(!cnfPasswordShow)}
                             style={styles.password_img_view}>
-                            {!passwordShow ? (
+                            {!cnfPasswordShow ? (
                                 <Image
                                     source={require('../../Assets/images/eye-off.png')}
                                     resizeMode="contain"
@@ -208,7 +277,14 @@ const Register = () => {
                         title="Register"
                         textStyle={styles.button_txt}
                         style={styles.button_sty}
-                        onPress={() => NavigationService.navigate('Profile')}
+                        // onPress={() => NavigationService.navigate('Profile')}
+                        loader={btnLoader ? {
+                            position: 'right',
+                            color: '#fff',
+                            size: 'small'
+                        } : null}
+                        disabled={btnLoader}
+                        onPress={() => getRegister()}
                     />
                     <Text style={{
                         ...styles.dont_have_account,
@@ -274,7 +350,10 @@ const styles = StyleSheet.create({
     },
     password_placeholder_txt: {
         fontFamily: FONTS.solway.medium,
-        fontSize: moderateScale(12)
+        fontSize: moderateScale(12),
+        height: moderateScale(40),
+        width: moderateScale(260),
+        borderWidth: 0,
     },
     agreeTo_txt: {
         fontFamily: FONTS.solway.light,

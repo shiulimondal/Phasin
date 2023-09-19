@@ -8,6 +8,9 @@ import AuthStack from './App/Navigation/AuthStack';
 import { Theme } from 'react-native-basic-elements';
 import AppStack from './App/Navigation/AppStack';
 import { Dimensions } from 'react-native';
+import AuthService from './App/Services/Auth';
+import { useDispatch, useSelector } from 'react-redux';
+import { setuser } from './App/Redux/reducer/User';
 
 const Stack = createStackNavigator();
 const { height, width } = Dimensions.get('screen')
@@ -15,11 +18,26 @@ const { height, width } = Dimensions.get('screen')
 const App = () => {
   const [isDark, setIsDark] = useState(false);
   const [splash, setSplash] = useState(true)
+  const [isSignIn, setisSignIn] = useState(true)
+  const dispatch = useDispatch();
+  const { login_status } = useSelector(state => state.User);
   useEffect(() => {
     setTimeout(() => {
       setSplash(false)
     }, 900);
+    checkUser();
   }, [])
+  const checkUser = async () => {
+    let account = await AuthService.getAccount()
+    console.log(account);
+    if (account) {
+      console.log("account", account);
+      // console.log("account");
+      dispatch(setuser(account))
+    } else {
+      // console.log("no no");
+    }
+  }
   return (
     <View
       style={{
@@ -86,8 +104,15 @@ const App = () => {
                   // gestureDirection: 'horizontal',
                   // ...TransitionPresets.ModalTransition,
                 }}>
-                <Stack.Screen name="AuthStack" component={AuthStack} />
-                <Stack.Screen name="AppStack" component={AppStack} />
+                {
+                  console.log('login_status=======', login_status)
+                }
+                {
+                  login_status ?
+                    <Stack.Screen name="AppStack" component={AppStack} />
+                    :
+                    <Stack.Screen name="AuthStack" component={AuthStack} />
+                }
               </Stack.Navigator>
             </NavigationContainer>
           </Theme.Provider>
