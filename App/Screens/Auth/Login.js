@@ -42,18 +42,18 @@ const Login = () => {
             "password": password
         };
         // setBtnLoader(true)
-        console.log('logindata====', data);
+        // console.log('logindata====', data);
         AuthService.login(data)
             .then(res => {
-                // if (res.status == true) {
-                //     Toast.show('Register successful', Toast.SHORT, Toast.BOTTOM);
-                // } 
-                // setBtnLoader(false)
+                console.log('res.data',res.data);
+                if (res.status == true) {
+                    Toast.show('Login successful', Toast.SHORT, Toast.BOTTOM);
+                } 
+                setBtnLoader(false)
                 AuthService.setAccount(res.data);
             })
             .catch(err => {
-                console.log('err', err);
-                // setBtnLoader(false)
+                setBtnLoader(false)
             });
     };
     return (
@@ -155,13 +155,12 @@ const Login = () => {
                         title="Log in"
                         textStyle={styles.button_txt}
                         style={styles.button_sty}
-                        // onPress={() => NavigationService.navigate('AppStack')}
-                        // loader={btnLoader ? {
-                        //     position: 'right',
-                        //     color: '#fff',
-                        //     size: 'small'
-                        // } : null}
-                        // disabled={btnLoader}
+                        loader={btnLoader ? {
+                            position: 'right',
+                            color: '#fff',
+                            size: 'small'
+                        } : null}
+                        disabled={btnLoader}
                         onPress={() => getLogin()}
                     />
                     <Text style={{

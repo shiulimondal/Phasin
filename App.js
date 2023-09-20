@@ -29,9 +29,9 @@ const App = () => {
   }, [])
   const checkUser = async () => {
     let account = await AuthService.getAccount()
-    console.log(account);
+    console.log("accountttt", account);
     if (account) {
-      console.log("account", account);
+      console.log("accountttt", account);
       // console.log("account");
       dispatch(setuser(account))
     } else {
