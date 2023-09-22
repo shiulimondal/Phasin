@@ -13,7 +13,6 @@ const Home = () => {
         <Container>
             <HomeHeader />
 
-
             <MapView
                 provider="google"
                 style={{ flex: 1 }}
@@ -25,7 +24,7 @@ const Home = () => {
                 }}
                 showsTraffic={true}
                 streetViewMode="enabled"
-                customMapStyle={require('./DarkMaoStyle.json')}
+                customMapStyle={require('./DarkMapStyle.json')}
             >
                 {/* Add map markers, overlays, etc. here */}
                 <Marker
