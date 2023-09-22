@@ -2,7 +2,7 @@ import React, { memo } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useTheme } from 'react-native-basic-elements';
 
-const Label = ({ text, ...restProps }) => {
+const RLabel = ({ text, ...restProps }) => {
   const colors = useTheme()
   return (
     <View style={{...styles.root,
@@ -25,4 +25,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default memo(Label);
+export default memo(RLabel);

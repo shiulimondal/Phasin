@@ -1,0 +1,35 @@
+[
+    {
+      "elementType": "geometry",
+      "stylers": [
+        {
+          "color": "#242f3e"
+        }
+      ]
+    },
+    {
+      "elementType": "labels.text.fill",
+      "stylers": [
+        {
+          "color": "#746855"
+        }
+      ]
+    },
+    {
+      "elementType": "labels.text.stroke",
+      "stylers": [
+        {
+          "color": "#242f3e"
+        }
+      ]
+    },
+    {
+        "elementType": "geometry",
+        "stylers": [
+          {
+            "color": "rgba(131, 131, 131, 0.2)" 
+          }
+        ],
+        "featureType": "road"
+      }
+  ]

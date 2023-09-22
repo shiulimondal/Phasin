@@ -7,20 +7,28 @@ const login = async (data) => {
 const Register = async (data) => {
     return HttpClient.post('register', data);
 }
-
 const getAccount = async () => {
     return Storage.get('account');
 }
 
-const setAccount = async (data)=> {
+const setAccount = async (data) => {
     return Storage.set('account', data);
 }
+const getToken = async () => {
+    return Storage.get('token');
+
+};
+const setToken = async data => {
+    return Storage.set('token', data);
+};
 
 const AuthService = {
     getAccount,
     setAccount,
     Register,
-    login
+    login,
+    getToken,
+    setToken,
 }
 
 export default AuthService;

@@ -8,12 +8,71 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { moderateScale } from '../../Constants/PixelRatio';
 import { FONTS } from '../../Constants/Fonts';
 import NavigationService from '../../Services/Navigation';
+import Toast from 'react-native-simple-toast';
 
 const { height, width } = Dimensions.get('window')
 // create a component
-const Profile = () => {
+const Profile = (props) => {
     const colors = useTheme()
     const [dropdownValue, setDropdownValue] = useState('');
+    const UserData = props.route.params.UserData
+    // const ID = props.route.params.ID
+    const [Age, setAge] = useState('')
+    const [Gender, setGender] = useState('')
+    const [location, setLocation] = useState('')
+    const [Occupation, setOccupation] = useState('')
+
+    const profile = async () => {
+        if (Age == '') {
+            Toast.show('Enter your age', Toast.SHORT);
+            return
+        }
+        if (Gender == '') {
+            Toast.show('select gender', Toast.SHORT);
+            return
+        }
+        if (location == '') {
+            Toast.show('Enter your location', Toast.SHORT);
+            return
+        }
+        if (Occupation == '') {
+            Toast.show('Enter your Occupation', Toast.SHORT);
+            return
+        }
+
+        NavigationService.navigate('Preference', {
+            ProfileUdata: {age: Age, gender: Gender, location: location, Occupation: Occupation },
+            regUdata :UserData,
+            // regID:ID
+        })
+        // let data = {
+        //     "fullName": Name,
+        //     "age": Age,
+        //     "gender": Gender,
+        //     "location": location,
+        //     "Occupation": Occupation,
+        //     // "startAge": 20,
+        //     // "endAge": 30,
+        //     // "interestIn": "Woman",
+        //     // "lookingFor": "Friends",
+        //     // "about": "test data"
+        // };
+        // setBtnLoader(true)
+        // console.log('data', data);
+        // AuthService.EmailRegister(data)
+        //     .then(res => {
+        //         setBtnLoader(false)
+
+
+        //     })
+        //     .catch(err => {
+        //         setBtnLoader(false)
+        //         console.log('err', err);
+        //     })
+
+
+    }
+
     return (
         <Container>
             <BackHeader title='Create Your Profile' />
@@ -53,8 +112,11 @@ const Profile = () => {
                             style={styles.edit_img}
                         />
                     </View>
+
                     <AppTextInput
                         title='Full Name'
+                        value={UserData.fullName}
+                        // onChangeText={value => setName(value)}
                         titleStyle={{
                             ...styles.user_name_txt,
                             color: colors.primaryFontColor
@@ -63,7 +125,7 @@ const Profile = () => {
                             ...styles.input_Container_sty,
                             borderColor: colors.primaryFontColor
                         }}
-                        placeholder="John Doe"
+                        // placeholder="John Doe"
                         placeholderTextColor={colors.primaryFontColor}
                         inputStyle={{
                             ...styles.input_txt_sty,
@@ -73,6 +135,8 @@ const Profile = () => {
                     />
                     <AppTextInput
                         title='Your Age'
+                        value={Age}
+                        onChangeText={value => setAge(value)}
                         titleStyle={{
                             ...styles.user_name_txt,
                             marginTop: moderateScale(20),
@@ -82,13 +146,13 @@ const Profile = () => {
                             ...styles.input_Container_sty,
                             borderColor: colors.primaryFontColor
                         }}
-                        placeholder="24 Years Old"
+                        // placeholder="24 Years Old"
                         placeholderTextColor={colors.primaryFontColor}
                         inputStyle={{
                             ...styles.input_txt_sty,
                             color: colors.primaryFontColor,
                         }}
-                    // keyboardType='email-address'
+                        keyboardType='number-pad'
                     />
                     <Text style={{
                         ...styles.password_txt,
@@ -130,11 +194,13 @@ const Profile = () => {
                             ...styles.picker_sty,
                             borderColor: colors.primaryFontColor
                         }}
-                        selectedValue={dropdownValue}
-                        onValueChange={(val) => setDropdownValue(val)}
+                        selectedValue={Gender}
+                        onValueChange={(val) => setGender(val)}
                     />
                     <AppTextInput
                         title='Your Location'
+                        value={location}
+                        onChangeText={value => setLocation(value)}
                         titleStyle={{
                             ...styles.user_name_txt,
                             marginTop: moderateScale(20),
@@ -144,7 +210,7 @@ const Profile = () => {
                             ...styles.input_Container_sty,
                             borderColor: colors.primaryFontColor
                         }}
-                        placeholder="San Jose, South Dakota 83475"
+                        // placeholder="San Jose, South Dakota 83475"
                         placeholderTextColor={colors.primaryFontColor}
                         inputStyle={{
                             ...styles.input_txt_sty,
@@ -154,6 +220,8 @@ const Profile = () => {
                     />
                     <AppTextInput
                         title='Your Occupation'
+                        value={Occupation}
+                        onChangeText={value => setOccupation(value)}
                         titleStyle={{
                             ...styles.user_name_txt,
                             marginTop: moderateScale(20),
@@ -163,7 +231,7 @@ const Profile = () => {
                             ...styles.input_Container_sty,
                             borderColor: colors.primaryFontColor
                         }}
-                        placeholder="24 Years Old"
+                        // placeholder="24 Years Old"
                         placeholderTextColor={colors.primaryFontColor}
                         inputStyle={{
                             ...styles.input_txt_sty,
@@ -175,7 +243,8 @@ const Profile = () => {
                         title="Next"
                         textStyle={styles.button_txt}
                         style={styles.button_sty}
-                        onPress={() => NavigationService.navigate('Preference')}
+                        // onPress={() => NavigationService.navigate('Preference')}
+                        onPress={() => profile()}
                     />
                 </KeyboardAwareScrollView>
             </LinearGradient>

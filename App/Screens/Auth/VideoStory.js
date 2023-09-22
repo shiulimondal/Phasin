@@ -9,16 +9,68 @@ import { moderateScale } from '../../Constants/PixelRatio';
 import { FONTS } from '../../Constants/Fonts';
 import NavigationService from '../../Services/Navigation';
 import Modal from "react-native-modal";
+import AuthService from '../../Services/Auth';
+import { logout, setuser } from '../../Redux/reducer/User';
+import { useDispatch } from 'react-redux';
+import Toast from 'react-native-simple-toast';
 
 const { height, width } = Dimensions.get('window')
 // create a component
-const VideoStory = () => {
+const VideoStory = (props) => {
     const colors = useTheme()
+    const dispatch = useDispatch();
+    const PreferenceUdata = props.route.params.PreferenceUdata
+    const Profile_Udata = props.route.params.Profile_Udata
+    const Prefile_regUdata = props.route.params.Prefile_regUdata
+    // const Profile_regID = props.route.params.Profile_regID
+    const [about, setAbout] = useState('')
+    const [btnLoader, setBtnLoader] = useState(false);
     const [isModalVisible, setModalVisible] = useState(false);
-
+    // console.log('Prefile_regUdata',Prefile_regUdata);
     const toggleModal = () => {
         setModalVisible(!isModalVisible);
     };
+
+    const SubmitRegister = () => {
+        if (about == "") {
+            Toast.show('Add Your Bio', Toast.SHORT);
+            return false;
+        }
+        let data = {
+            "fullName": Prefile_regUdata.fullName,
+            "email": Prefile_regUdata.email,
+            "mobile": Prefile_regUdata.phoneNo,
+            "password": Prefile_regUdata.password,
+            "age": Profile_Udata.Age,
+            "gender": Profile_Udata.Gender,
+            "location": Profile_Udata.location,
+            "Occupation": Profile_Udata.Occupation,
+            "startAge": PreferenceUdata.startage,
+            "endAge": PreferenceUdata.endAge,
+            "radius":PreferenceUdata.radius,
+            "interestIn": PreferenceUdata.interested,
+            "lookingFor": PreferenceUdata.lookingFor,
+            "about": about
+        };
+        setBtnLoader(true)
+        console.log('createDATA ======', data);
+        AuthService.Register(data)
+            .then(res => {
+                console.log('registerdata', res);
+                if (res.status == true) {
+                    Toast.show(res.message, Toast.SHORT, Toast.BOTTOM);
+                }
+                AuthService.setAccount(res.data);
+                dispatch(setuser(res.data));
+                setBtnLoader(false)
+            })
+            .catch(err => {
+                console.log('err==========================',err);
+                setBtnLoader(false)
+            });
+
+    };
+    // const UserData = props.route.params.UserData
     return (
         <Container>
             <BackHeader title='Your Video Story' />
@@ -83,6 +135,8 @@ const VideoStory = () => {
                     <AppTextInput
                         multiline={true}
                         numberOfLines={6}
+                        value={about}
+                        onChangeText={value => setAbout(value)}
                         textAlignVertical='top'
                         title='About You'
                         titleStyle={{
@@ -93,7 +147,7 @@ const VideoStory = () => {
                             ...styles.input_Container_sty,
                             borderColor: colors.primaryFontColor
                         }}
-                        placeholder="Add Your Bio here"
+                        // placeholder="Add Your Bio here"
                         placeholderTextColor={colors.primaryFontColor}
                         inputStyle={{
                             ...styles.input_txt_sty,
@@ -105,7 +159,14 @@ const VideoStory = () => {
                         title="Next"
                         textStyle={styles.button_txt}
                         style={styles.button_sty}
-                        onPress={() => NavigationService.navigate('VideoStory')}
+                        // onPress={() => NavigationService.navigate('VideoStory')}
+                        loader={btnLoader ? {
+                            position: 'right',
+                            color: '#fff',
+                            size: 'small'
+                        } : null}
+                        disabled={btnLoader}
+                        onPress={() => SubmitRegister()}
                     />
 
                     {/* open modal */}
@@ -192,7 +253,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         bottom: moderateScale(20),
         alignSelf: 'center',
-        right:moderateScale(100)
+        right: moderateScale(100)
     },
     upload_only_txt: {
         fontFamily: FONTS.solway.regular,

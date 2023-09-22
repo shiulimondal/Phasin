@@ -2,7 +2,7 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator, TransitionPresets } from '@react-navigation/stack';
 import React, { Component, useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, Text, StyleSheet, Image, ActivityIndicator } from 'react-native';
 import NavigationService from './App/Services/Navigation';
 import AuthStack from './App/Navigation/AuthStack';
 import { Theme } from 'react-native-basic-elements';
@@ -11,33 +11,40 @@ import { Dimensions } from 'react-native';
 import AuthService from './App/Services/Auth';
 import { useDispatch, useSelector } from 'react-redux';
 import { setuser } from './App/Redux/reducer/User';
+import Geocoder from 'react-native-geocoding';
 
 const Stack = createStackNavigator();
+Geocoder.init("AIzaSyDoTIrlJxHd9rTLoytrigY9piIQk1OcTJk");
 const { height, width } = Dimensions.get('screen')
 // create a component
 const App = () => {
   const [isDark, setIsDark] = useState(false);
   const [splash, setSplash] = useState(true)
   const [isSignIn, setisSignIn] = useState(true)
+  const [LoderStatus, setLoderStatus] = useState(true);
   const dispatch = useDispatch();
   const { login_status } = useSelector(state => state.User);
+
   useEffect(() => {
     setTimeout(() => {
       setSplash(false)
     }, 900);
     checkUser();
   }, [])
+
   const checkUser = async () => {
-    let account = await AuthService.getAccount()
-    console.log("accountttt", account);
-    if (account) {
-      console.log("accountttt", account);
-      // console.log("account");
-      dispatch(setuser(account))
-    } else {
-      // console.log("no no");
+    let result = await AuthService.getAccount();
+    let token = await AuthService.getToken();
+    console.log('resultttltl', result)
+    console.log('resultttltl', token)
+
+    if (result) {
+      dispatch(setuser(result))
+
     }
+    setLoderStatus(false)
   }
+  if (LoderStatus) return <ActivityIndicator style={{ marginTop: 400 }} color={"green"} size={25} />
   return (
     <View
       style={{

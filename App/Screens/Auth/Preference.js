@@ -14,12 +14,23 @@ import Label from '../../Components/Slider/Label';
 import Notch from '../../Components/Slider/Notch';
 import Slider from 'rn-range-slider';
 import NavigationService from '../../Services/Navigation';
+import RThumb from '../../Components/RSlider/RThumb';
+import RRail from '../../Components/RSlider/RRail';
+import RRailSelected from '../../Components/RSlider/RRailSelected';
+import RLabel from '../../Components/RSlider/RLabel';
+import RNotch from '../../Components/RSlider/RNotch';
+import AuthService from '../../Services/Auth';
 
 const { height, width } = Dimensions.get('window')
 // create a component
-const Preference = () => {
+const Preference = (props) => {
     const colors = useTheme()
     const [dropdownValue, setDropdownValue] = useState('');
+
+    const ProfileUdata = props.route.params.ProfileUdata
+    // const regID = props.route.params.regID
+    const regUdata = props.route.params.regUdata
+
     const [rangeDisabled, setRangeDisabled] = useState(false);
     const [low, setLow] = useState(0);
     const [high, setHigh] = useState(100);
@@ -49,6 +60,100 @@ const Preference = () => {
         () => setFloatingLabel(!floatingLabel),
         [floatingLabel],
     );
+
+    const [RrangeDisabled, setRRangeDisabled] = useState(false);
+    const [Rlow, setRLow] = useState(0);
+    const [Rhigh, setRHigh] = useState(100);
+    const [Rmin, setRMin] = useState(0);
+    const [Rmax, setRMax] = useState(100);
+    const [RfloatingLabel, setRFloatingLabel] = useState(false);
+    const RrenderThumb = useCallback(() => <RThumb />,
+        [],
+    );
+    const RrenderRail = useCallback(() => <RRail />, []);
+    const RrenderRailSelected = useCallback(() => <RRailSelected />, []);
+    const RrenderLabel = useCallback(value => <RLabel text={value} />, []);
+    const RrenderNotch = useCallback(() => <RNotch />, []);
+    const RhandleValueChange = useCallback((lowValue, highValue) => {
+        setLow(lowValue);
+        setHigh(highValue);
+    }, []);
+    const toggleRRangeEnabled = useCallback(
+        () => setRRangeDisabled(!RrangeDisabled),
+        [RrangeDisabled],
+    );
+    const setRMinTo50 = useCallback(() => setMin(50), []);
+    const setRMinTo0 = useCallback(() => setMin(0), []);
+    const setRMaxTo100 = useCallback(() => setMax(100), []);
+    const setRMaxTo500 = useCallback(() => setMax(500), []);
+    const toggleRFloatingLabel = useCallback(
+        () => setFloatingLabel(!RfloatingLabel),
+        [RfloatingLabel],
+    );
+
+    const [startage, setStartAge] = useState(0)
+    const [endAge, setEndAge] = useState('')
+    const [radius, setRadius] = useState('')
+    const [interested, setInterested] = useState('')
+    const [lookingFor, setLookingFor] = useState('')
+
+    const Preference = async () => {
+        if (endAge == '') {
+            Toast.show('Select age range', Toast.SHORT);
+            return
+        }
+        if (radius == '') {
+            Toast.show('Select radius', Toast.SHORT);
+            return
+        }
+        if (interested == '') {
+            Toast.show('Select your interest', Toast.SHORT);
+            return
+        }
+        if (lookingFor == '') {
+            Toast.show('What are you looking for', Toast.SHORT);
+            return
+        }
+        console.log("data", {
+            PreferenceUdata: { startage: startage, endAge: Number(endAge), radius: Number(radius), interested: interested, lookingFor: lookingFor },
+            Profile_Udata: ProfileUdata,
+            Prefile_regUdata: regUdata,
+            // Profile_regID: regID
+        });
+        NavigationService.navigate('VideoStory', {
+            PreferenceUdata: { startage: startage, endAge: Number(endAge), radius: Number(radius),interested: interested, lookingFor: lookingFor },
+            Profile_Udata: ProfileUdata,
+            Prefile_regUdata: regUdata,
+            // Profile_regID: regID
+        })
+
+        // let data = {
+        //     "fullName": Profile_Udata.Name,
+        //     "age": Profile_Udata.Age,
+        //     "gender": Profile_Udata.Gender,
+        //     "location": Profile_Udata.location,
+        //     "Occupation": Profile_Udata.Occupation,
+        //     "startAge": PreferenceUdata.startage(0),
+        //     "endAge":PreferenceUdata.endAge ,
+        //     "interestIn": PreferenceUdata.interested,
+        //     "lookingFor": PreferenceUdata.lookingFor
+        //     // "about": "test data"
+        // };
+        // setBtnLoader(true)
+        // console.log('data', data);
+        // AuthService.CreateProfile(data)
+        //     .then(res => {
+        //         setBtnLoader(false)
+
+        //     })
+        //     .catch(err => {
+        //         setBtnLoader(false)
+        //         console.log('err', err);
+        //     })
+
+
+    }
+
     return (
         <Container>
             <BackHeader title='Preference' />
@@ -83,9 +188,10 @@ const Preference = () => {
                             renderRailSelected={renderRailSelected}
                             renderLabel={renderLabel}
                             renderNotch={renderNotch}
-                            onValueChanged={handleValueChange}
+                            onValueChanged={val => setEndAge(val)}
                         />
                     </View>
+                    {/* handleValueChange */}
                     <Text style={{
                         ...styles.age_number_txt,
                         color: colors.primaryFontColor
@@ -103,17 +209,17 @@ const Preference = () => {
                             style={{
                                 ...styles.slider,
                             }}
-                            min={min}
-                            max={max}
+                            min={Rmin}
+                            max={Rmax}
                             step={1}
                             disableRange={true}
-                            floatingLabel={floatingLabel}
-                            renderThumb={renderThumb}
-                            renderRail={renderRail}
-                            renderRailSelected={renderRailSelected}
-                            renderLabel={renderLabel}
-                            renderNotch={renderNotch}
-                            onValueChanged={handleValueChange}
+                            floatingLabel={RfloatingLabel}
+                            renderThumb={RrenderThumb}
+                            renderRail={RrenderRail}
+                            renderRailSelected={RrenderRailSelected}
+                            renderLabel={RrenderLabel}
+                            renderNotch={RrenderNotch}
+                            onValueChanged={value => setRadius(value)}
                         />
                     </View>
                     <Text style={{
@@ -152,8 +258,8 @@ const Preference = () => {
                             ...styles.picker_sty,
                             borderColor: colors.primaryFontColor
                         }}
-                        selectedValue={dropdownValue}
-                        onValueChange={(val) => setDropdownValue(val)}
+                        selectedValue={interested}
+                        onValueChange={(val) => setInterested(val)}
                     />
 
                     <Text style={{
@@ -187,15 +293,16 @@ const Preference = () => {
                             ...styles.picker_sty,
                             borderColor: colors.primaryFontColor
                         }}
-                        selectedValue={dropdownValue}
-                        onValueChange={(val) => setDropdownValue(val)}
+                        selectedValue={lookingFor}
+                        onValueChange={(val) => setLookingFor(val)}
                     />
 
                     <AppButton
                         title="Next"
                         textStyle={styles.button_txt}
                         style={styles.button_sty}
-                        onPress={() => NavigationService.navigate('VideoStory')}
+                        // onPress={() => NavigationService.navigate('VideoStory')}
+                        onPress={() => Preference()}
                     />
                 </KeyboardAwareScrollView>
             </LinearGradient>

@@ -53,28 +53,33 @@ const Register = () => {
             Toast.show('Please select this checkbox', Toast.SHORT, Toast.BOTTOM);
             return;
         }
-        console.log('regdatadata ======', data);
-        let data = {
-            "fullName": fullName,
-            "email": email,
-            "mobile": phoneNo,
-            "password": password
-        };
+        NavigationService.navigate('Profile', { UserData: { fullName: fullName, email: email, phoneNo: phoneNo,password:password }})
+
+        // console.log('regdatadata ======', data);
+        // let data = {
+        //     "fullName": fullName,
+        //     "email": email,
+        //     "mobile": phoneNo,
+        //     "password": password,
+
+        // };
+        // console.log('data====', data);
         // setBtnLoader(true)
-        console.log('data====', data);
-        AuthService.Register(data)
-            .then(res => {
-                console.log('resdata', res);
-                if (res.status == true) {
-                    Toast.show('Register successful', Toast.SHORT, Toast.BOTTOM);
-                } 
-                setBtnLoader(false)
-                AuthService.setAccount(res.data);
-                dispatch(setuser(res.data));
-            })
-            .catch(err => {
-                // setBtnLoader(false)
-            });
+        // // AuthService.Register(data)
+        //     .then(res => {
+        //         console.log('resdata', res);
+        //         // if (res) {
+        //         //     Toast.show('Register successful', Toast.SHORT, Toast.BOTTOM);
+        //         // }
+        //         setBtnLoader(false)
+        //         NavigationService.navigate('Profile', { UserData: { fullName: fullName, email: email, phoneNo: phoneNo,password:password }, ID: res.data._id })
+
+        //         // AuthService.setAccount(res.data);
+        //         // dispatch(setuser(res.data));
+        //     })
+        //     .catch(err => {
+        //         setBtnLoader(false)
+        //     });
     };
     return (
         <Container>

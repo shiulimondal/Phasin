@@ -12,6 +12,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { useDispatch, useSelector } from 'react-redux';
 import Toast from 'react-native-simple-toast';
 import AuthService from '../../Services/Auth';
+import { setuser } from '../../Redux/reducer/User';
 
 const { height, width } = Dimensions.get('window')
 // create a component
@@ -41,18 +42,22 @@ const Login = () => {
             "userName": email,
             "password": password
         };
-        // setBtnLoader(true)
-        // console.log('logindata====', data);
+
+        setBtnLoader(true)
+        console.log('logdata====', data)
+
         AuthService.login(data)
             .then(res => {
-                console.log('res.data',res.data);
+                console.log('resdata', res);
                 if (res.status == true) {
-                    Toast.show('Login successful', Toast.SHORT, Toast.BOTTOM);
-                } 
+                    Toast.show(res.message, Toast.SHORT, Toast.BOTTOM);
+                }
                 setBtnLoader(false)
                 AuthService.setAccount(res.data);
+                dispatch(setuser(res.data));
             })
             .catch(err => {
+                console.log('err',err);
                 setBtnLoader(false)
             });
     };

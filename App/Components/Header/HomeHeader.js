@@ -18,6 +18,7 @@ const HomeHeader = ({ defaultButtons = true }) => {
                 backgroundColor={COLORS.headerColor}
                 barStyle='dark-content'
             />
+
             <View style={{
                 flexDirection: 'row',
                 alignItems: 'center',
@@ -39,13 +40,13 @@ const HomeHeader = ({ defaultButtons = true }) => {
                         <Text style={{
                             ...styles.hello_txt,
                             color: colors.secondaryTextColor
-                        }}>Hello John!</Text>
+                        }}>{userData.fullName}</Text>
                         <Text
                             numberOfLines={1}
                             style={{
                                 ...styles.addres_txt,
                                 color: colors.secondaryTextColor
-                            }}>San Jose, South Dakota 83475</Text>
+                            }}>{userData.location}</Text>
                     </View>
                     <View style={{
                         ...styles.img_box
