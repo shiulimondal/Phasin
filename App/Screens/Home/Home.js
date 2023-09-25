@@ -18,8 +18,12 @@ const Home = () => {
                 provider="google"
                 style={{ flex: 1 }}
                 initialRegion={{
-                    latitude: 37.78825,
-                    longitude: -122.4324,
+                    // latitude: 37.78825,
+                    // longitude: -122.4324,
+                    // latitudeDelta: 0.0922,
+                    // longitudeDelta: 0.0421,
+                    latitude: 22.5726,
+                    longitude: 88.3639,
                     latitudeDelta: 0.0922,
                     longitudeDelta: 0.0421,
                 }}
@@ -29,16 +33,16 @@ const Home = () => {
                 customMapStyle={require('./DarkMapStyle.json')}
             >
                 {/* Add map markers, overlays, etc. here */}
-                <Marker
-                coordinate={{ latitude: 37.78825, longitude: -122.4324 }}
-                title="Popular Place 1"
-                description="Description of Popular Place 1"
+                {/* <Marker
+                coordinate={{Latitude:  22.597781, Longitude:  88.476717}}
+                title="Newtown Kolkata"
+                description="New Town is a posh planned smart city located in the state of West Bengal in India. Being one of the satellite cities of state capital Kolkata, New Town is located in the east Kolkata. It is a part of Kolkata Metropolitan Area. It is administered by New Town Kolkata Development Authority"
             />
             <Marker
                 coordinate={{ latitude: 37.79825, longitude: -122.4324 }}
                 title="Popular Place 2"
                 description="Description of Popular Place 2"
-            />
+            /> */}
             </MapView>
 
 
