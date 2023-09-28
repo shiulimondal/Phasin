@@ -1,72 +1,71 @@
 [
-{
-  "elementType": "geometry",
-  "stylers": [
-    {
-      "color": "#242f3e"
-    }
-  ]
-},
-{
-  "elementType": "labels.text.fill",
-  "stylers": [
-    {
-      "color": "#ffffff" 
-    }
-  ]
-},
-{
-  "elementType": "labels.text.stroke",
-  "stylers": [
-    {
-      "color": "#000000" 
-    }
-  ]
-},
-{
-  "featureType": "poi.business",
-  "elementType": "labels.text",
-  "stylers": [
-    {
-      "visibility": "on" 
-    }
-  ]
-},
-{
-  "featureType": "road",
-  "elementType": "geometry",
-  "stylers": [
-    {
-      "color": "#89CCD5" 
-    }
-  ]
-},
-{
-  "featureType": "road",
-  "elementType": "labels.icon",
-  "stylers": [
-    {
-      "visibility": "off" 
-    }
-  ]
-},
-{
-  "featureType": "transit",
-  "elementType": "labels.icon",
-  "stylers": [
-    {
-      "visibility": "off" 
-    }
-  ]
-},
-{
-  "featureType": "water",
-  "elementType": "geometry",
-  "stylers": [
-    {
-      "color": "#000000" 
-    }
-  ]
-}
-
+  {
+    "elementType": "geometry",
+    "stylers": [
+      {
+        "color": "#35455e"
+      }
+    ]
+  },
+  {
+    "elementType": "labels.text.fill",
+    "stylers": [
+      {
+        "color": "#ffffff"
+      }
+    ]
+  },
+  {
+    "elementType": "labels.text.stroke",
+    "stylers": [
+      {
+        "color": "#000000"
+      }
+    ]
+  },
+  {
+    "featureType": "poi.business",
+    "elementType": "labels.text",
+    "stylers": [
+      {
+        "visibility": "on"
+      }
+    ]
+  },
+  {
+    "featureType": "road",
+    "elementType": "geometry",
+    "stylers": [
+      {
+        "color": "#89CCD5"
+      }
+    ]
+  },
+  {
+    "featureType": "road",
+    "elementType": "labels.icon",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  },
+  {
+    "featureType": "transit",
+    "elementType": "labels.icon",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  },
+  {
+    "featureType": "water",
+    "elementType": "geometry",
+    "stylers": [
+      {
+        "color": "#000000"
+      }
+    ]
+  }
 ]

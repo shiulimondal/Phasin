@@ -18,12 +18,12 @@ const Home = () => {
                 provider="google"
                 style={{ flex: 1 }}
                 initialRegion={{
-                    // latitude: 37.78825,
-                    // longitude: -122.4324,
+                    // Latitude: 32.7157,
+                    // Longitude: 117.1611
                     // latitudeDelta: 0.0922,
                     // longitudeDelta: 0.0421,
-                    latitude: 22.5726,
-                    longitude: 88.3639,
+                    latitude: 32.715736,
+                    longitude: -117.161087,
                     latitudeDelta: 0.0922,
                     longitudeDelta: 0.0421,
                 }}
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
         overflow: "hidden",
         marginTop: moderateScale(15),
     },
-  
+
 });
 
 //make this component available to the app
