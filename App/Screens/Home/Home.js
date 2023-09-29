@@ -27,7 +27,7 @@ const Home = () => {
                     latitudeDelta: 0.0922,
                     longitudeDelta: 0.0421,
                 }}
-                showsTraffic={true}
+                // showsTraffic={true}
                 streetViewMode="enabled"
                 showsCompass={true}
                 customMapStyle={require('./DarkMapStyle.json')}
